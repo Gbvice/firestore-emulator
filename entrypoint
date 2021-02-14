@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+# Validate environment variables
+if [[ -z "${PROJECT_ID}" ]]; then
+  echo "Missing PROJECT_ID. Add to docker run: -e PROJECT_ID=YOUR_PROJECT_ID" >&2
+  exit 1
+fi
+
+if [[ -z "${PORT}" ]]; then
+  echo "Missing PORT. Add to docker run: -e PORT=FIRESTORE_PORT" >&2
+  exit 1
+fi
+
+# Config gcloud project
+gcloud config set project ${PROJECT_ID}
+
+# Start emulator
+gcloud beta emulators firestore start --host-port=0.0.0.0:${PORT}
